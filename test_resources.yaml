@@ -13,7 +13,7 @@ parameters:
   required: true
 - name: PVC_SIZE
   required: true
-  value: "0.5Gi"
+  value: "5Gi"
 objects:
 - apiVersion: kubeflow.org/v1beta1
   kind: Notebook
