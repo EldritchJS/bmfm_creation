@@ -25,6 +25,9 @@ if [[ $# -ne 4 ]]; then
     exit 1
 fi
 
+# -d -n ai4dd-06afdc -t dummy 20 5 eldritchjs openad_workbench
+#
+
 # Number of notebbooks to create
 num_notebooks=$1
 
@@ -47,7 +50,7 @@ if [[ -z $namespace ]]; then
 fi
 
 # ensure names are lower case
-test_run_name="${test_run_name,,}"
+#test_run_name="${test_run_name,,}"
 
 # SECONDS is a magic bash variable that will return the number of
 # elapsed seconds since it was set to 0.
