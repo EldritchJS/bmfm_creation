@@ -83,6 +83,15 @@ objects:
               successThreshold: 1
               timeoutSeconds: 1
             env:
+              - name: NOTEBOOK_VERSION
+                value: bmfm
+              
+              - name: OPENAD-MAMMAL
+                value: https://bmfm-mammal-inference-ai4dd-06afdc.apps.shift.nerc.mghpcc.org
+
+              - name: OPENAD-SM
+                value: https://bmfm-sm-inference-ai4dd-06afdc.apps.shift.nerc.mghpcc.org
+
               - name: NOTEBOOK_ARGS
                 value: |-
                   --ServerApp.port=8888
@@ -91,9 +100,6 @@ objects:
                                     --ServerApp.base_url=/notebook/${NAMESPACE}/${NOTEBOOK_NAME}
                                     --ServerApp.quit_button=False
                                     --ServerApp.tornado_settings={"user":"${USERNAME}","hub_host":"https://rhods-dashboard-redhat-ods-applications.apps.shift.nerc.mghpcc.org","hub_prefix":"/projects/${NAMESPACE}"}
-                                    --NOTEBOOK_VERSION=bmfm
-                                    --OPENAD-MAMMAL=https://bmfm-mammal-inference-ai4dd-06afdc.apps.shift.nerc.mghpcc.org
-                                    --OPENAD-SM=https://bmfm-sm-inference-ai4dd-06afdc.apps.shift.nerc.mghpcc.org
 
               - name: JUPYTER_IMAGE
                 value: >-
