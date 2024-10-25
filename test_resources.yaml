@@ -46,20 +46,21 @@ objects:
                       # set the value to 'true' to use nodes with GPUs
                       operator: In
                       values:
-                        - 'true'
+                        - 'false'
+                        #- 'true'
                 weight: 1
         containers:
           - resources:
               limits:
-                cpu: '1'
-                memory: 2Gi
+                cpu: '2'
+                memory: 8Gi
                 # remove this line if no GPU is needed
-                nvidia.com/gpu: '1'
+#                nvidia.com/gpu: '1'
               requests:
-                cpu: '1'
-                memory: 2Gi
+                cpu: '2'
+                memory: 8Gi
                 # remove this line if no GPU is needed
-                nvidia.com/gpu: '1'
+#                nvidia.com/gpu: '1'
             readinessProbe:
               failureThreshold: 3
               httpGet:
