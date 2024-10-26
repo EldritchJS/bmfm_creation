@@ -40,6 +40,8 @@ username=$3
 # Notebook imagename
 image_name=$4
 
+random_id=`openssl rand -hex 3`
+
 if [[ -z $test_run_name ]]; then
     test_run_name="$(mktemp -u ope-test-"$username"-"$num_notebooks"-XXXXXX)"
 fi
@@ -60,7 +62,8 @@ echo "Starting test run $test_run_name with $num_notebooks notebooks"
 
 for ((i=0; i<num_notebooks; i+=batch_size)); do
     for ((j=0; j<batch_size && (i+j)<num_notebooks; j++)); do
-        notebook_name="${test_run_name}-$((i+j))"
+        notebook_name="${test_run_name}-$(random_id)"
+        #notebook_name="${test_run_name}-$((i+j))"
         oc process -f test_resources.yaml --local \
             -p NOTEBOOK_NAME="$notebook_name" \
             -p TEST_RUN_NAME="$test_run_name" \

@@ -52,12 +52,12 @@ objects:
         containers:
           - resources:
               limits:
-                cpu: '2'
+                cpu: '4'
                 memory: 8Gi
                 # remove this line if no GPU is needed
 #                nvidia.com/gpu: '1'
               requests:
-                cpu: '2'
+                cpu: '4'
                 memory: 8Gi
                 # remove this line if no GPU is needed
 #                nvidia.com/gpu: '1'
