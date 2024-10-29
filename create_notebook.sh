@@ -25,15 +25,10 @@ while getopts t:n:c:d ch; do
 done
 shift $(( OPTIND - 1 ))
 
-echo $#
-
 if [[ $# -ne 4 ]]; then
     echo "Usage: $0 [-d] [-n <namespace>] [-t <test-run-name>] [-c <tiny_url_csv_filename>] <num_notebooks> <batch_size> <username> <image_name>" >&2
     exit 1
 fi
-
-# -d -n ai4dd-06afdc -t dummy 20 5 eldritchjs openad_workbench
-#
 
 # Number of notebbooks to create
 num_notebooks=$1
@@ -74,7 +69,6 @@ for ((i=0; i<num_notebooks; i+=batch_size)); do
 	url="https://bmfm-${random_id}-ai4dd-06afdc.apps.shift.nerc.mghpcc.org/notebook/ai4dd-06afdc/bmfm-${random_id}/lab/workspaces/auto-s/tree/openad_notebooks/BMFM_HOL.ipynb"
 	alias="ai4dd-${random_id}"
 	echo "${url},tinyurl.com,${alias},demo" >> $csv_name
-        #notebook_name="${test_run_name}-$((i+j))"
         oc process -f test_resources.yaml --local \
             -p NOTEBOOK_NAME="$notebook_name" \
             -p TEST_RUN_NAME="$test_run_name" \
@@ -87,6 +81,6 @@ for ((i=0; i<num_notebooks; i+=batch_size)); do
     wait
 done
 
-echo "All notebooks are starting. The total requests time is $SECONDS seconds."
+echo "All notebooks are starting. The total time for requests is $SECONDS seconds."
 
 
