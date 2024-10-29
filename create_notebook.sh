@@ -20,8 +20,8 @@ while getopts t:n:d ch; do
 done
 shift $(( OPTIND - 1 ))
 
-if [[ $# -ne 4 ]]; then
-    echo "Usage: $0 [-d] [-n <namespace>] [-t <test-run-name>] <num_notebooks> <batch_size> <username> <image_name>" >&2
+if [[ $# -ne 5 ]]; then
+    echo "Usage: $0 [-d] [-n <namespace>] [-t <test-run-name>] <num_notebooks> <batch_size> <username> <image_name> <tinyurl_csv_name>" >&2
     exit 1
 fi
 
@@ -40,6 +40,8 @@ username=$3
 # Notebook imagename
 image_name=$4
 
+csv_name=$5
+
 if [[ -z $test_run_name ]]; then
     test_run_name="$(mktemp -u ope-test-"$username"-"$num_notebooks"-XXXXXX)"
 fi
@@ -56,12 +58,17 @@ fi
 # elapsed seconds since it was set to 0.
 SECONDS=0
 
-echo "Starting test run $test_run_name with $num_notebooks notebooks"
+echo "Starting test run $test_run_name with $num_notebooks notebooks" 
+
+echo "URL,Domain,Alias,Tag" > $csv_name
 
 for ((i=0; i<num_notebooks; i+=batch_size)); do
     for ((j=0; j<batch_size && (i+j)<num_notebooks; j++)); do
 	random_id=`openssl rand -hex 3`
         notebook_name="${test_run_name}-${random_id}"
+	url="https://bmfm-${random_id}-ai4dd-06afdc.apps.shift.nerc.mghpcc.org/notebook/ai4dd-06afdc/bmfm-${random_id}/lab/workspaces/auto-s/tree/openad_notebooks/BMFM_HOL.ipynb"
+	alias="ai4dd-${random_id}"
+	echo "${url},tinyurl.com,${alias},demo" >> $csv_name
         #notebook_name="${test_run_name}-$((i+j))"
         oc process -f test_resources.yaml --local \
             -p NOTEBOOK_NAME="$notebook_name" \

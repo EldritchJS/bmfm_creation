@@ -46,6 +46,7 @@ class ScimClient(object):
         keycloak_client_id = os.environ.get("CLIENT_ID")
         token_url = f"{self.keycloak_url}/auth/realms/mss/protocol/openid-connect/token"
 
+        print(self.auth_type)
         if self.auth_type == "secret":
             keycloak_client_secret = os.environ.get("CLIENT_SECRET")
             r = requests.post(
@@ -55,7 +56,7 @@ class ScimClient(object):
             )
         elif self.auth_type == "oauth2":
             device_url = f"{self.keycloak_url}/auth/realms/mss/protocol/openid-connect/auth/device"
-
+            print('Device URL is: ' + device_url)
             r = requests.post(
                 device_url,
                 data={
@@ -105,6 +106,16 @@ class ScimClient(object):
 
         logger.info("Authenticated with Keycloak")
         return session
+
+    def get_user(self, username, first_name, last_name, email):
+        url = f"{self.scim_url}/Users/{username}"
+        r = self.session.get(url)
+        if r.status_code == 200:
+            print(f"User {username} exists.")
+        if r.status_code in [404, 500]:
+            print(f"Found user {username}.")
+    
+
 
     def create_user(self, username, first_name, last_name, email):
         """Create a user."""
@@ -202,13 +213,15 @@ def get_sanitized_name(name):
         "authorization grant flow. Defaults to secret"
     ),
 )
-def main(csv_file, add_to_rhods_notebooks_namespace, auth_type):
+def main(csv_file='', add_to_rhods_notebooks_namespace='', auth_type='oauth2'):
     client = ScimClient(
         "https://coldfront.mss.mghpcc.org/api/scim/v2",
         "https://keycloak.mss.mghpcc.org",
-        auth_type,
+        'oauth2', #auth_type,
     )
 
+    get_user('eldritchjs')
+    '''
     with open(csv_file, newline="") as csvfile:
         reader = csv.reader(csvfile, delimiter=",", quotechar="|")
         for index, row in enumerate(reader):
@@ -231,7 +244,7 @@ def main(csv_file, add_to_rhods_notebooks_namespace, auth_type):
 
             if index % 50 == 49:
                 client.session = client.refresh_session()
-
+'''
 
 if __name__ == "__main__":
     main()
