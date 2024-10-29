@@ -2,16 +2,21 @@
 
 create_resource_command=( oc create -f- )
 
-while getopts t:n:d ch; do
+csv_name="/dev/null"
+
+while getopts t:n:c:d ch; do
     case $ch in
         t)  test_run_name=$OPTARG
             ;;
 
-	    n)  namespace=$OPTARG
+	n)  namespace=$OPTARG
             ;;
 
 	# Send manifests to stdout instead of creating resources
         d)  create_resource_command=( cat )
+            ;;
+
+	c)  csv_name=$OPTARG
             ;;
 
         *)  exit 2
@@ -20,8 +25,10 @@ while getopts t:n:d ch; do
 done
 shift $(( OPTIND - 1 ))
 
-if [[ $# -ne 5 ]]; then
-    echo "Usage: $0 [-d] [-n <namespace>] [-t <test-run-name>] <num_notebooks> <batch_size> <username> <image_name> <tinyurl_csv_name>" >&2
+echo $#
+
+if [[ $# -ne 4 ]]; then
+    echo "Usage: $0 [-d] [-n <namespace>] [-t <test-run-name>] [-c <tiny_url_csv_filename>] <num_notebooks> <batch_size> <username> <image_name>" >&2
     exit 1
 fi
 
@@ -39,8 +46,6 @@ username=$3
 
 # Notebook imagename
 image_name=$4
-
-csv_name=$5
 
 if [[ -z $test_run_name ]]; then
     test_run_name="$(mktemp -u ope-test-"$username"-"$num_notebooks"-XXXXXX)"
