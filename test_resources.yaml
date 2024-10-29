@@ -98,8 +98,6 @@ objects:
                                     --ServerApp.token=''
                                     --ServerApp.password=''
                                     --ServerApp.base_url=/notebook/${NAMESPACE}/${NOTEBOOK_NAME}
-                                    --ServerApp.file_to_run=bmfm_hol.ipynb
-                                    --ServerApp.file_url_prefix=notebooks/openad_workbooks
                                     --ServerApp.quit_button=False
                                     --ServerApp.tornado_settings={"user":"${USERNAME}","hub_host":"https://rhods-dashboard-redhat-ods-applications.apps.shift.nerc.mghpcc.org","hub_prefix":"/projects/${NAMESPACE}"}
 
