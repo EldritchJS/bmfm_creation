@@ -204,6 +204,7 @@ objects:
       app: ${NOTEBOOK_NAME}
       notebook-name: ${NOTEBOOK_NAME}
       ope-test-run: ${TEST_RUN_NAME}
+      opendatahub.io/dashboard: 'true'
   spec:
     accessModes:
       - ReadWriteOnce
